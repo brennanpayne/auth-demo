@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+    function checkSignIn() {
+      fetch('http://localhost:3005/check', {
+          method: "GET",
+          headers: {
+            'Accept':  'application/json',
+            'Content-Type': 'application/json',
+            'mode': 'cors',
+            'Cache': 'no-cache'
+          },
+          credentials: 'same-origin'
+      })
+      .then(function(response) {
+        if (response.status === 200) {
+          window.top.postMessage(true, "*")
+        } else if (response.status === 401) {
+          window.top.postMessage(false, "*")
+        }
+      })
+      .catch(function(response) {
+        window.top.postMessage(false, "*")
+      })
+    }
+    checkSignIn()
+    </script>
+  </body>
+</html>

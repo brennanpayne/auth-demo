@@ -3,9 +3,39 @@
   <head>
     <meta charset="utf-8">
     <title>App 2</title>
+    <script>
+      window.onload = function () {
+        var iframe = document.createElement('iframe');
+        iframe.src = "http://localhost:3005/auth.html";
+        iframe.style = "display:none";
+        window.addEventListener("message", receiveMessage, false);
+
+        function receiveMessage(event)
+        {
+          if (event.origin !== "http://localhost:3005")
+          return;
+          if (event.data) {
+            document.querySelector("#signed-in").innerText = "Yes";
+          } else {
+            document.querySelector("#signed-in").innerText = "No";
+          }
+        }
+
+        document.body.appendChild(iframe);
+      }
+
+      function signIn(event) {
+        event && event.preventDefault();
+        window.open("http://localhost:3005", "signin", "_self,resizable,height=260,width=370'");
+      }
+    </script>
+
   </head>
   <body>
     <h1>Am I logged in to App 2?</h1>
-    <h2>Yes/No</h2>
+    <h2 id="signed-in">Yes/No</h2>
+    <div>
+      <a href="#" onclick="signIn(event)">Sign In</a>
+    </div>
   </body>
 </html>
